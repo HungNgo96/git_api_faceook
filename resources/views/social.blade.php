@@ -237,8 +237,7 @@
                 //deletePost();
                 // getPostCommentOfPost();
                // buildAll();
-          
-              getLongLivedPageToken();
+                getLongLivedPageToken();
              
             } else {
                 console.log('Not authenticated');
@@ -246,14 +245,23 @@
             }
         }
 
+        function callFBLogin(){
+        FB.login(function(response) {
+            if (response.authResponse) {
+                statusChangeCallback(response);
+            }else{
+                        alert("Access not authorized.");
+                }
+        },{scope: 'email'});
+        }
+
         function checkLoginState() {
             FB.login(function(response) {
-                        console.log('Login to fb.login:',response)
-                }, {scope: 'email,user_likes,birthday'})
-            FB.getLoginStatus(function(response) {
-                statusChangeCallback(response);
-            });//scope
-           
+                    console.log('Login to fb.login:',response)
+                    FB.getLoginStatus(function(response) {
+                  
+                });//scope
+            }, {scope: 'email,user_likes,birthday'})
         }
 
         function logout() {
@@ -438,9 +446,9 @@
          function getIdImage(){
             let access_token = tokenAll;
             let method=`POST`;
-            let message = content;
+           
             let pageID = '100644248350802';
-            let urlImg =[`https://www.seekpng.com/png/detail/817-8171022_ezreal-v-binh-tinh-t-ez-v-binh.png`];
+            let urlImg =[`https://pm1.narvii.com/6060/305688b3c808caf4f1e3751b63820b9385d6345e_hq.jpg`];
              for(let item in urlImg){
 
                  let ob = {
@@ -718,10 +726,11 @@
     </div>
     <div class="container">
         <div class="col-xl-12 composer-accounts-list">
-            <fb:login-button id="fb-btn" class="btn btn-primary"
+            {{-- <fb:login-button id="fb-btn" class="btn btn-primary"
             scope="public_profile,email,user_birthday,user_location,user_posts,pages_manage_engagement,pages_manage_posts ,pages_show_list, pages_manage_ads, pages_manage_metadata, pages_read_engagement,pages_read_user_content"
             onlogin="checkLoginState();">
-        </fb:login-button>
+        </fb:login-button> --}}
+            <button id="fb-btn" class="btn btn-primary" onclick="callFBLogin();">Login</button>
             <ul id='page_info'>
                 <!-- <li class="account-selected">
                     <a href="#" data-id="15433" data-net="100644248350802" data-network="facebook_pages" data-category="value">
@@ -732,7 +741,8 @@
             </ul>
         </div>
         <div class="btn-group dropup">
-            <input type="text" class="form-control" id="inputTxt" aria-label="Amount (to the nearest dollar)">&nbsp;&nbsp;
+            <input type="text" class="form-control" id="inputTxt"
+                aria-label="Amount (to the nearest dollar)">&nbsp;&nbsp;
             <button type="submit" class="btn btn-success" id="btn-press"><i class="icon-share-alt"></i>
                 Post Now</button>
 
@@ -743,22 +753,22 @@
             <button type="submit" class="btn btn-danger" id="btn-update"><i class="icon-share-alt"></i>
 
                 Update post</button>
-                &nbsp;&nbsp;
-                <button type="submit" class="btn btn-primary" id="btn-post-video"><i class="icon-share-alt"></i>
-    
-                    Post Video</button>
-                    
+            &nbsp;&nbsp;
+            <button type="submit" class="btn btn-primary" id="btn-post-video"><i class="icon-share-alt"></i>
+
+                Post Video</button>
+
             <ul class="dropdown-menu" role="menu">
                 <li><a href="#" class="open-midrub-planner">Schedule</a>
                 </li>
                 <li><a href="#" class="composer-draft-post">Draft it</a>
                 </li>
             </ul>
-            
+
         </div>
-       
+
     </div>
- 
+
     <script type="text/javascript">
         let btn = document.getElementById('btn-press');
         let btnDetele = document.getElementById('btn-delete');
